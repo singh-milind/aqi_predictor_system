@@ -49,7 +49,7 @@ import modules.metrics as metrics
 
 
 # HEADER
-colA, colB = st.columns([9, 1])
+colA, colB = st.columns([9, 2])
 
 with colA:
     st.title("🌍 AQI Prediction System")
