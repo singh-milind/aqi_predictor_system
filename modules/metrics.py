@@ -89,9 +89,9 @@ def run():
 
     col5, col6, col7,col8 = st.columns(4)
 
-    col5.metric("MAE(ratio)", round(pm10["MAE"], 2))
-    col6.metric("MSE(ratio)", round(pm10["MSE"], 2))
-    col7.metric("RMSE(ratio)", round(pm10["RMSE"], 2))
+    col5.metric("MAE", round(pm10["MAE"], 2))
+    col6.metric("MSE", round(pm10["MSE"], 2))
+    col7.metric("RMSE", round(pm10["RMSE"], 2))
     col8.metric("R² Score", round(pm10["R2"], 3))
 
 
