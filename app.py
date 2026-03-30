@@ -36,6 +36,12 @@ def load_all_resources():
 
 
 # IMPORT MODULES AFTER LOADING
+# LOAD FIRST
+if "resources" not in st.session_state:
+    st.session_state["resources"] = load_all_resources()
+
+
+# IMPORT AFTER LOADING
 import modules.predictor as predictor
 import modules.simulator as simulator
 import modules.feature as feature
