@@ -18,26 +18,26 @@ from modules.aqi_utils import get_cpcb_aqi, get_who_aqi
 
 
 # LOAD MODELS
-@st.cache_resource
-def load_models():
-    # if not os.path.exists("models"):
+# @st.cache_resource
+# def load_models():
+#     # if not os.path.exists("models"):
 
-    #     FILE_ID = "1ja_FHxj2I-lHJHjgbaOSDIljq5nrnCMP"
-    #     url = f"https://drive.google.com/uc?id={FILE_ID}"
+#     #     FILE_ID = "1ja_FHxj2I-lHJHjgbaOSDIljq5nrnCMP"
+#     #     url = f"https://drive.google.com/uc?id={FILE_ID}"
 
-    #     # download zip
-    #     gdown.download(url, "models.zip", quiet=False)
+#     #     # download zip
+#     #     gdown.download(url, "models.zip", quiet=False)
 
-    #     # unzip
-    #     with zipfile.ZipFile("models.zip", "r") as zip_ref:
-    #         zip_ref.extractall("models")
-    model_pm25 = joblib.load("models/weather_pm25_model.pkl")
-    model_pm10 = joblib.load("models/weather_pm10_model.pkl")
-    cols25 = joblib.load("models/weather_pm25_cols.pkl")
-    cols10 = joblib.load("models/weather_pm10_cols.pkl")
-    return model_pm25, model_pm10, cols25, cols10
+#     #     # unzip
+#     #     with zipfile.ZipFile("models.zip", "r") as zip_ref:
+#     #         zip_ref.extractall("models")
+#     model_pm25 = joblib.load("models/weather_pm25_model.pkl")
+#     model_pm10 = joblib.load("models/weather_pm10_model.pkl")
+#     cols25 = joblib.load("models/weather_pm25_cols.pkl")
+#     cols10 = joblib.load("models/weather_pm10_cols.pkl")
+#     return model_pm25, model_pm10, cols25, cols10
 
-model_pm25, model_pm10, cols25, cols10 = load_models()
+# model_pm25, model_pm10, cols25, cols10 = load_models()
 
 
 
