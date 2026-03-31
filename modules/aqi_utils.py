@@ -21,21 +21,6 @@ pm10_cpcb = [
 ]
 
 # WHO BREAKPOINTS
-pm25_who = [
-    (0, 5, 0, 50),
-    (5, 15, 50, 100),
-    (15, 25, 100, 200),
-    (25, 50, 200, 300),
-    (50, 1000, 300, 500)
-]
-
-pm10_who = [
-    (0, 15, 0, 50),
-    (15, 45, 50, 100),
-    (45, 75, 100, 200),
-    (75, 150, 200, 300),
-    (150, 1000, 300, 500)
-]
 
 # CORE FUNCTION
 def sub_index(C, bp):
@@ -58,14 +43,3 @@ def get_cpcb_aqi(pm25, pm10):
 
     return round(max(values), 2)
 
-
-def get_who_aqi(pm25, pm10):
-    aqi25 = sub_index(pm25, pm25_who)
-    aqi10 = sub_index(pm10, pm10_who)
-
-    values = [v for v in [aqi25, aqi10] if v is not None]
-
-    if not values:
-        return None
-
-    return round(max(values), 2)
