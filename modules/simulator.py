@@ -243,23 +243,25 @@ def run():
             st.subheader("📊 Simulation Result")
             st.markdown("Note: AQI values are reported using CPCB standards.")
 
-            c1, c2, c3 = st.columns([1,1,1.8])
+            c1, c2, c3 = st.columns([1,1,1])
 
             with c1:
-                st.metric("Baseline PM2.5 (µg/m³)",round(base_pm25),2)
-                st.metric("Baseline PM10 (µg/m³)",round(base_pm10),2)
-                st.metric("Baseline AQI", round(base_aqi,2))
+                with st.container(border=True):
+                    st.metric("Baseline PM2.5 (µg/m³)",round(base_pm25),2)
+                    st.metric("Simulated PM2.5 (µg/m³)", round(new_pm25, 2), delta=round(pm25_delta, 2))
+                    st.metric("PM2.5 Impact", "Smog Risk ↑" if pm25_delta > 0 else "Smog Risk ↓")
 
             with c2:
-                    st.metric("Simulated PM2.5 (µg/m³)", round(new_pm25, 2), delta=round(pm25_delta, 2))
-                    st.metric("Simulated PM10 (µg/m³)", round(new_pm10, 2), delta=round(pm10_delta, 2))
-                    st.metric("Simulated AQI", round(new_aqi, 2), delta=round(aqi_delta, 2))
+                    with st.container(border=True):
+                        st.metric("Baseline PM10 (µg/m³)",round(base_pm10),2)
+                        st.metric("Simulated PM10 (µg/m³)", round(new_pm10, 2), delta=round(pm10_delta, 2))
+                        st.metric("PM10 Impact", "Dust Load ↑" if pm10_delta > 0 else "Dust Load ↓")
 
             with c3:
-                st.metric("PM2.5 Impact", "Smog Risk Increased ↑" if pm25_delta > 0 else "Smog Risk Reduced ↓")
-                st.metric("PM10 Impact", "Dust Load Increased ↑" if pm10_delta > 0 else "Dust Load Reduced ↓")
-                st.metric("Overall Air Quality", "Improved" if aqi_delta < 0 else "Deteriorated")
-
+                with st.container(border=True):
+                    st.metric("Baseline AQI", round(base_aqi,2))
+                    st.metric("Simulated AQI", round(new_aqi, 2), delta=round(aqi_delta, 2))
+                    st.metric("Overall Air Quality", "Improved" if aqi_delta < 0 else "Deteriorated")
     with left:
             city_coords = {
     "Amaravati": {"lat": 16.5412, "lon": 80.5154},
