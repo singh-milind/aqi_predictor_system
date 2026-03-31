@@ -2,11 +2,6 @@ import streamlit as st
 import pandas as pd
 import joblib
 import pydeck as pdk
-import os
-import requests
-import zipfile
-# import gdown
-import pickle
 
 from modules.feature_builder import build_features
 from modules.aqi_utils import get_cpcb_aqi
@@ -14,40 +9,6 @@ from modules.aqi_utils import get_cpcb_aqi
 
 st.set_page_config(layout="wide")
 
-# LOAD MODELS (CACHE
-# @st.cache_resource
-# def load_models():
-#     # if not os.path.exists("models"):
-
-#     #     FILE_ID = "1ja_FHxj2I-lHJHjgbaOSDIljq5nrnCMP"
-#     #     url = f"https://drive.google.com/uc?id={FILE_ID}"
-
-#     #     # download zip
-#     #     gdown.download(url, "models.zip", quiet=False)
-
-#     #     # unzip
-#     #     with zipfile.ZipFile("models.zip", "r") as zip_ref:
-#     #         zip_ref.extractall("models")
-
-#     model_pm25 = joblib.load("models/weather_pm25_model.pkl")
-#     model_pm10 = joblib.load("models/weather_pm10_model.pkl")
-#     cols25 = joblib.load("models/weather_pm25_cols.pkl")
-#     cols10 = joblib.load("models/weather_pm10_cols.pkl")
-#     return model_pm25, model_pm10, cols25, cols10
-
-# model_pm25, model_pm10, cols25, cols10 = load_models()
-
-# # PREDICT FUNCTION
-# def predict_aqi(input_data):
-#     df25, df10 = build_features(input_data, cols25, cols10)
-
-#     pm25 = model_pm25.predict(df25)[0]
-#     ratio = model_pm10.predict(df10)[0]
-#     pm10 = pm25 * ratio
-
-#     aqi = get_cpcb_aqi(pm25, pm10)
-
-#     return pm25, pm10, aqi
 season_matrix = pd.DataFrame(
     {
         "Jan": ["Winter", "Winter", "Winter", "Winter", "Winter", "Winter", "Winter"],
@@ -280,24 +241,24 @@ def run():
             # OUTPUT
 
             st.subheader("📊 Simulation Result")
-            st.markdown("Note : AQI is in CPCB Standard")
+            st.markdown("Note: AQI values are reported using CPCB standards.")
 
-            c1, c2, c3 = st.columns(3)
+            c1, c2, c3 = st.columns([1,1,1.8])
 
             with c1:
-                st.metric("Old PM2.5 (µg/m³)",round(base_pm25),2)
-                st.metric("Old PM10 (µg/m³)",round(base_pm10),2)
-                st.metric("Old AQI", round(base_aqi,2))
+                st.metric("Baseline PM2.5 (µg/m³)",round(base_pm25),2)
+                st.metric("Baseline PM10 (µg/m³)",round(base_pm10),2)
+                st.metric("Baseline AQI", round(base_aqi,2))
 
             with c2:
-                st.metric("New PM2.5 (µg/m³)", round(new_pm25, 2), delta=round(pm25_delta, 2))
-                st.metric("New PM10 (µg/m³)", round(new_pm10, 2), delta=round(pm10_delta, 2))
-                st.metric("New AQI", round(new_aqi, 2), delta=round(aqi_delta, 2))
+                    st.metric("Simulated PM2.5 (µg/m³)", round(new_pm25, 2), delta=round(pm25_delta, 2))
+                    st.metric("Simulated PM10 (µg/m³)", round(new_pm10, 2), delta=round(pm10_delta, 2))
+                    st.metric("Simulated AQI", round(new_aqi, 2), delta=round(aqi_delta, 2))
 
             with c3:
-                st.metric("PM2.5 Impact", "Smog ↑" if pm25_delta > 0 else "Smog ↓")
-                st.metric("PM10 Impact", "Dust ↑" if pm10_delta > 0 else "Dust ↓")
-                st.metric("Overall Impact", "Better" if aqi_delta < 0 else "Worse")
+                st.metric("PM2.5 Impact", "Smog Risk Increased ↑" if pm25_delta > 0 else "Smog Risk Reduced ↓")
+                st.metric("PM10 Impact", "Dust Load Increased ↑" if pm10_delta > 0 else "Dust Load Reduced ↓")
+                st.metric("Overall Air Quality", "Improved" if aqi_delta < 0 else "Deteriorated")
 
     with left:
             city_coords = {
