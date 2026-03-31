@@ -4,57 +4,11 @@ import streamlit as st
 import numpy as np
 import pandas as pd
 import pydeck as pdk
-import joblib
-import os
-import requests
-import zipfile
-# import gdown
-import pickle
 
 from modules.feature_builder import build_features
-from modules.aqi_utils import get_cpcb_aqi, get_who_aqi
-
-
-
-
-# LOAD MODELS
-# @st.cache_resource
-# def load_models():
-#     # if not os.path.exists("models"):
-
-#     #     FILE_ID = "1ja_FHxj2I-lHJHjgbaOSDIljq5nrnCMP"
-#     #     url = f"https://drive.google.com/uc?id={FILE_ID}"
-
-#     #     # download zip
-#     #     gdown.download(url, "models.zip", quiet=False)
-
-#     #     # unzip
-#     #     with zipfile.ZipFile("models.zip", "r") as zip_ref:
-#     #         zip_ref.extractall("models")
-#     model_pm25 = joblib.load("models/weather_pm25_model.pkl")
-#     model_pm10 = joblib.load("models/weather_pm10_model.pkl")
-#     cols25 = joblib.load("models/weather_pm25_cols.pkl")
-#     cols10 = joblib.load("models/weather_pm10_cols.pkl")
-#     return model_pm25, model_pm10, cols25, cols10
-
-# model_pm25, model_pm10, cols25, cols10 = load_models()
-
-
+from modules.aqi_utils import get_cpcb_aqi
 
 # VERDICT FUNCTIONS
-def get_who_verdict_emoji(aqi):
-    if aqi <= 50:
-        return "🟢 Good"
-    elif aqi <= 100:
-        return "🟡 Moderate"
-    elif aqi <= 200:
-        return "🟠 Sensitive"
-    elif aqi <= 300:
-        return "🔴 Unhealthy"
-    elif aqi <= 400:
-        return "🟣 Very Unhealthy"
-    else:
-        return "⚫ Hazardous"
 
 
 def get_cpcb_verdict_emoji(aqi):
@@ -160,11 +114,9 @@ def run():
         with ileft:    
         # WEATHER GUIDE IMAGE
             with st.expander("View Weather Verdict Guide"):
-                colA, colB, colC = st.columns([1.5,8,1.5])
+                colA, colB, colC = st.columns([1,15,1])
                 with colB:
-                    st.caption(" ")
                     st.image("images/weather_verdict.png", width=800)
-                    st.caption(" ")
                     
 
 
@@ -185,9 +137,9 @@ def run():
             # WIND DIRECTION GUIDE IMAGE
             with st.expander("View Wind Direction guide"):
                 st.caption("Degree to Direction")
-                colA, colB, colC = st.columns([2.7,3,2.7])
+                colA, colB, colC = st.columns([1,3,1])
                 with colB:
-                    st.image("images/compass.png", width=275)
+                    st.image("images/compass.png", width=280)
                 
                 st.caption("Ex- 350° means Wind is coming from 350° and going towards opposite to that.")
             wind_dir = st.slider("Wind Direction (°)", 0, 360, 90)
@@ -245,23 +197,40 @@ def run():
             pm10 = pm25 * ratio
 
             cpcb = get_cpcb_aqi(pm25, pm10)
-            who  = get_who_aqi(pm25, pm10)
+            who25  = round(pm25/15,2)
+            who10  = round(pm10/45,2)
+
 
 
             # RESULTS
-            st.subheader("📊 Results")
+            st.subheader("📊 Air Quality Prediction Summary")
 
             r1, r2 = st.columns(2)
 
             with r1:
-                st.metric("PM2.5 (µg/m³)", f"{pm25:.2f}")
-                st.metric("CPCB AQI 🇮🇳", f"{cpcb:.2f}")
-                st.metric("CPCB Verdict",get_cpcb_verdict_emoji(cpcb))
+                with st.container(border=True):
+                    st.metric("Predicted PM2.5 (µg/m³)", f"{pm25:.2f}")
+                    if(who25<1):
+                        st.metric("Below PM2.5 WHO Daily Safe limit by ", f"{who25} x")
+                    else:
+                        st.metric("WHO Daily PM10 Limit Exceeded By", f"{who25}x")
 
             with r2:
-                st.metric("PM10 (µg/m³)", f"{pm10:.2f}")
-                st.metric("WHO AQI 🌍", f"{who:.2f}")
-                st.metric("WHO Verdict",get_who_verdict_emoji(who))
+                with st.container(border=True):
+                    st.metric("Predicted PM10 (µg/m³)", f"{pm10:.2f}")
+                    if(who10<1):
+                        st.metric("Below PM10 WHO Daily Safe limit by ", f"{who10}x")
+                    else:
+                        st.metric("WHO Daily PM10 Limit Exceeded By", f"{who10}x")
+            r1, r2 = st.columns(2)
+            with st.container(border=True):
+                with r1:
+                    st.metric("Estimated CPCB AQI", f"{cpcb:.2f}")
+                with r2:
+                    st.metric("CPCB Air Quality Category",get_cpcb_verdict_emoji(cpcb))
+                    
+
+            
     with left:
         city_coords = {
     "Amaravati": {"lat": 16.5412, "lon": 80.5154},
