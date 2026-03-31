@@ -1,54 +1,9 @@
 import streamlit as st
 import pandas as pd
-import joblib
-import os
-import requests
-import zipfile
-# import gdown
-import pickle
+
+
 from modules.feature_builder import build_features
 
-# =========================
-# LOAD MODELS
-# =========================
-# @st.cache_resource
-# def load_models():
-#     # if not os.path.exists("models"):
-
-#     #     FILE_ID = "1ja_FHxj2I-lHJHjgbaOSDIljq5nrnCMP"
-#     #     url = f"https://drive.google.com/uc?id={FILE_ID}"
-
-#     #     # download zip
-#     #     gdown.download(url, "models.zip", quiet=False)
-
-#     #     # unzip
-#     #     with zipfile.ZipFile("models.zip", "r") as zip_ref:
-#     #         zip_ref.extractall("models")
-
-
-#     #     # unzip
-#     #     with zipfile.ZipFile("models.zip", "r") as zip_ref:
-#     #         zip_ref.extractall("models")
-#     model_pm25 = joblib.load("models/weather_pm25_model.pkl")
-#     model_pm10 = joblib.load("models/weather_pm10_model.pkl")
-#     cols25 = joblib.load("models/weather_pm25_cols.pkl")
-#     cols10 = joblib.load("models/weather_pm10_cols.pkl")
-#     return model_pm25, model_pm10, cols25, cols10
-
-# model_pm25, model_pm10, cols25, cols10 = load_models()
-
-
-# =========================
-# PREDICT FUNCTION
-# =========================
-# def predict(input_data):
-#     df25, df10 = build_features(input_data, cols25, cols10)
-
-#     pm25 = model_pm25.predict(df25)[0]
-#     ratio = model_pm10.predict(df10)[0]
-#     pm10 = pm25 * ratio
-
-#     return pm25, pm10
 
 
 # =========================
