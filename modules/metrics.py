@@ -12,7 +12,7 @@ def run():
     st.caption("Performance metrics for PM2.5 and PM10 models")
     st.divider()
     st.subheader("🔁 Model Workflow")
-
+    st.markdown("Model Used : Random Forest Regressor")
     st.markdown("""
 1. 🌫️ **PM2.5 Model** predicts particulate concentration  
 2. 🔗 **Ratio Model** estimates PM10/PM2.5 relationship  
