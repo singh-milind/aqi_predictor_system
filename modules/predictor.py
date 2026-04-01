@@ -88,6 +88,8 @@ def run():
     model_pm10 = resources["pm10_model"]
     cols25 = resources["pm25_cols"]
     cols10 = resources["pm10_cols"]
+    metrics25 = resources["pm25_metrics"]
+    metrics10 = resources["pm10_metrics"]
 
 
     st.header("AQI Predictor (Weather Based)")
@@ -208,27 +210,47 @@ def run():
             r1, r2 = st.columns(2)
 
             with r1:
+                ci_margin = 1.96 * metrics25["RMSE"]
+                lower25 = pm25 - ci_margin
+                if lower25 <0: lower25 =0
+                upper25 = pm25 + ci_margin
+
                 with st.container(border=True):
                     st.metric("Predicted PM2.5 (µg/m³)", f"{pm25:.2f}")
+                    st.caption(f"95% Confidence Interval: {lower25:.2f} – {upper25:.2f} µg/m³")
+                    st.divider()
                     if(who25<1):
                         st.metric("Below PM2.5 WHO Daily Safe limit by ", f"{who25} x")
                     else:
-                        st.metric("WHO Daily PM10 Limit Exceeded By", f"{who25}x")
+                        st.metric("WHO Daily PM2.5 Limit Exceeded By", f"{who25}x")
 
             with r2:
+                ci_margin = 1.96 * metrics10["RMSE"]
+                lower10 = ratio - ci_margin
+                if lower10 <0: lower10=0
+                upper10 = ratio + ci_margin
+                lower10 = pm25*lower10
+                upper10 = pm25*upper10
                 with st.container(border=True):
                     st.metric("Predicted PM10 (µg/m³)", f"{pm10:.2f}")
+                    st.caption(f"95% Confidence Interval: {lower10:.2f} – {upper10:.2f} µg/m³")
+                    st.divider()
                     if(who10<1):
                         st.metric("Below PM10 WHO Daily Safe limit by ", f"{who10}x")
                     else:
                         st.metric("WHO Daily PM10 Limit Exceeded By", f"{who10}x")
             r1, r2 = st.columns(2)
             with st.container(border=True):
+                aqi_lower = get_cpcb_aqi(lower25, lower10)
+                aqi_upper = get_cpcb_aqi(upper25, upper10)
+
                 with r1:
                     st.metric("Estimated CPCB AQI", f"{cpcb:.2f}")
+                    st.caption(f"Expected AQI range (95% CI): {aqi_lower:.0f} – {aqi_upper:.0f} ")
                 with r2:
                     st.metric("CPCB Air Quality Category",get_cpcb_verdict_emoji(cpcb))
-                    
+                    st.caption("⚠️ Most Likely")
+
 
             
     with left:
@@ -292,4 +314,4 @@ def run():
             get_fill_color=[255, 0, 0],
         )
     ]
-))
+    ))
