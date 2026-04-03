@@ -9,8 +9,6 @@ from modules.feature_builder import build_features
 from modules.aqi_utils import get_cpcb_aqi
 
 # VERDICT FUNCTIONS
-
-
 def get_cpcb_verdict_emoji(aqi):
     if aqi <= 50:
         return "🟢 Good"
@@ -25,6 +23,7 @@ def get_cpcb_verdict_emoji(aqi):
     else:
         return "⚫ Severe"
 
+#SEASON DATAFRAME
 season_matrix = pd.DataFrame(
     {
         "Jan": ["Winter", "Winter", "Winter", "Winter", "Winter", "Winter", "Winter"],
@@ -43,10 +42,9 @@ season_matrix = pd.DataFrame(
     index=["South", "Northeast", "North", "Central", "East", "West", "NCR"],
 )
 
-# Your dataframe (same as before)
 df = season_matrix.copy()
 
-# Color mapping
+# COLOR MAPPING OF DATAFRAME
 def color_map(val):
     colors = {
         "Winter": "rgba(79, 195, 247, 0.15)",
@@ -100,6 +98,7 @@ def run():
     left, icenter, right = st.columns([2, 6, 2])
 
     with icenter:
+        #CITY
         city = st.selectbox("📍 Select City", [
             'Agartala','Aizawl','Amaravati','Bengaluru','Bhopal','Bhubaneswar',
             'Chandigarh','Chennai','Dehradun','Delhi','Dispur','Faridabad',
@@ -112,7 +111,6 @@ def run():
         st.caption("Modify Parameters")
         ileft,iright = st.columns([3,3])
 
-        # CITY
         with ileft:    
         # WEATHER GUIDE IMAGE
             with st.expander("View Weather Verdict Guide"):
@@ -148,21 +146,18 @@ def run():
             wind = st.slider(" Wind Speed (km/h)", 0, 20, 6)
 
 
-        # DATE INPUTS
         st.divider()
         st.subheader("Date Parameters")
         st.caption("Select Date")
-        
-
-
-
+         
+        #SEASON MATRIX
         with st.expander("View Detailed Seasonal Patterns by Region"):
     
 
             styled_df = df.style.map(color_map)
             st.dataframe(styled_df, use_container_width=True)
             st.caption("Note: This matrix helps align predictions with India's specific meteorological cycles.")
-
+        # DATE INPUTS
         col3, col4, col5 = st.columns(3)
 
         with col3:
@@ -191,7 +186,7 @@ def run():
                 'day_of_week': dow,
                 'wind_direction_10m': wind_dir
             }
-
+            #PREDICTION
             df25, df10 = build_features(input_data, cols25, cols10)
 
             pm25 = model_pm25.predict(df25)[0]
@@ -199,6 +194,7 @@ def run():
             pm10 = pm25 * ratio
 
             cpcb = get_cpcb_aqi(pm25, pm10)
+            #WHO COMPARISON
             who25  = round(pm25/15,2)
             who10  = round(pm10/45,2)
 
@@ -210,6 +206,7 @@ def run():
             r1, r2 = st.columns(2)
 
             with r1:
+                #PM2.5 PREDICTION AND COMPARISON
                 ci_margin = 1.96 * metrics25["RMSE"]
                 lower25 = pm25 - ci_margin
                 if lower25 <0: lower25 =0
@@ -225,6 +222,7 @@ def run():
                         st.metric("WHO Daily PM2.5 Limit Exceeded By", f"{who25}x")
 
             with r2:
+                #PM10 PREDICTION AND COMPARISON
                 ci_margin = 1.96 * metrics10["RMSE"]
                 lower10 = ratio - ci_margin
                 if lower10 <0: lower10=0
@@ -239,6 +237,7 @@ def run():
                         st.metric("Below PM10 WHO Daily Safe limit by ", f"{who10}x")
                     else:
                         st.metric("WHO Daily PM10 Limit Exceeded By", f"{who10}x")
+            #AQI VERDICTS
             r1, r2 = st.columns(2)
             with st.container(border=True):
                 aqi_lower = get_cpcb_aqi(lower25, lower10)
@@ -252,7 +251,7 @@ def run():
                     st.caption("⚠️ Most Likely")
 
 
-            
+    #INDIA MAP  
     with left:
         city_coords = {
     "Amaravati": {"lat": 16.5412, "lon": 80.5154},
