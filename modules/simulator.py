@@ -9,6 +9,7 @@ from modules.aqi_utils import get_cpcb_aqi
 
 st.set_page_config(layout="wide")
 
+#SEASON DATAFRAME
 season_matrix = pd.DataFrame(
     {
         "Jan": ["Winter", "Winter", "Winter", "Winter", "Winter", "Winter", "Winter"],
@@ -27,10 +28,9 @@ season_matrix = pd.DataFrame(
     index=["South", "Northeast", "North", "Central", "East", "West", "NCR"],
 )
 
-# Your dataframe (same as before)
 df = season_matrix.copy()
 
-# Color mapping
+# COLOR MAPPING OF DATAFRAME
 def color_map(val):
     colors = {
         "Winter": "rgba(79, 195, 247, 0.15)",
@@ -89,7 +89,7 @@ def run():
     left, icenter, right = st.columns([2,6,2])
 
     with icenter:
-
+        #CITY
         city = st.selectbox("📍 Select City", [
             'Agartala','Aizawl','Amaravati','Bengaluru','Bhopal','Bhubaneswar',
             'Chandigarh','Chennai','Dehradun','Delhi','Dispur','Faridabad',
@@ -97,6 +97,7 @@ def run():
             'Jaipur','Kohima','Kolkata','Lucknow','Mumbai','Noida','Panaji',
             'Patna','Raipur','Ranchi','Shillong','Shimla','Thiruvananthapuram'
         ])
+        #PARAMETER HELP SECTION
         st.subheader("Parameter help")
         st.caption("Required for Parameter Understanding")
         colA,colB = st.columns([1,1])
@@ -118,8 +119,6 @@ def run():
             st.caption("Note: This matrix helps align predictions with India's specific meteorological cycles.")
         st.divider()
         ileft,iright = st.columns([3,3])
-
-        # WEATHER GUIDE IMAGE
 
 
         # BASE CONDITIONS
@@ -262,6 +261,7 @@ def run():
                     st.metric("Baseline AQI", round(base_aqi,2))
                     st.metric("Simulated AQI", round(new_aqi, 2), delta=round(aqi_delta, 2))
                     st.metric("Overall Air Quality", "Improved" if aqi_delta < 0 else "Deteriorated")
+    #MAP
     with left:
             city_coords = {
     "Amaravati": {"lat": 16.5412, "lon": 80.5154},
