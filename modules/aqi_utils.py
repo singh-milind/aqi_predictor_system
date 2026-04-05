@@ -20,7 +20,6 @@ pm10_cpcb = [
     (430, 1000, 400, 500)
 ]
 
-# WHO BREAKPOINTS
 
 # CORE FUNCTION
 def sub_index(C, bp):
