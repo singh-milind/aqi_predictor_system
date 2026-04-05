@@ -8,6 +8,7 @@ def run():
     pm25 = resources["pm25_metrics"]
     pm10 = resources["pm10_metrics"]
 
+    #INFO
     st.header("Model Evaluation")
     st.caption("Performance metrics for PM2.5 and PM10 models")
     st.divider()
@@ -25,9 +26,7 @@ def run():
 )
     st.divider()
 
-    # =========================
     # PM2.5
-    # =========================
     st.subheader("PM2.5 Model")
 
     col1, col2, col3, col4 = st.columns(4)
@@ -48,9 +47,7 @@ def run():
     st.divider()
     st.divider()
 
-    # =========================
     # PM10
-    # =========================
     st.subheader("PM10 Ratio Model")
     st.markdown("Ratio = (PM10 / PM2.5)")
     st.caption(
@@ -65,7 +62,7 @@ def run():
     col7.metric("RMSE", round(pm10["RMSE"], 2))
     col8.metric("R² Score", round(pm10["R2"], 3))
 
-
+    #OVERFIT-UNDERFIT CHECKS
     st.divider()
     colA,colB,colC = st.columns(3)
     colA.metric("Train R² Score",(round(pm10["Train_R2"], 3)))
