@@ -118,9 +118,6 @@ def run():
                 with colB:
                     st.image("images/weather_verdict.png", width=800)
                     
-
-
-
         # INPUTS
             col1, col2 = st.columns(2)
 
@@ -134,7 +131,7 @@ def run():
         
         
         with iright:
-            # WIND DIRECTION GUIDE IMAGE
+            # WIND DIRECTION GUIDE IMAGE AND INPUTS
             with st.expander("View Wind Direction guide"):
                 st.caption("Degree to Direction")
                 colA, colB, colC = st.columns([1,3,1])
@@ -195,6 +192,8 @@ def run():
 
             cpcb = get_cpcb_aqi(pm25, pm10)
             #WHO COMPARISON
+            #PM2.5 SAFE DAILY LIMIT 15
+            #PM10 SAFE DAILY LIMIT 45
             who25  = round(pm25/15,2)
             who10  = round(pm10/45,2)
 
