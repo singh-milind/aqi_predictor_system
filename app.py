@@ -4,7 +4,6 @@ import os
 import gdown
 import zipfile
 
-# MUST BE FIRST STREAMLIT COMMAND
 st.set_page_config(page_title="AQI System", layout="wide")
 
 
