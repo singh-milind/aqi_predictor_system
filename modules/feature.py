@@ -5,14 +5,11 @@ import pandas as pd
 from modules.feature_builder import build_features
 
 
-
-# =========================
 # MAIN
-# =========================
 def run():
 
     resources = st.session_state.resources
-
+    #PREDICTION
     model_pm25 = resources["pm25_model"]
     model_pm10 = resources["pm10_model"]
     cols25 = resources["pm25_cols"]
@@ -30,13 +27,10 @@ def run():
     st.caption("See how each parameter affects PM2.5 & PM10")
     st.divider()
     left, icenter, right = st.columns([1.5, 5, 1.5])
-    # st.caption("Weather Parameters")
 
     with icenter:
 
         ileft,iright = st.columns([3,3])
-
-        # CITY
 
         with ileft:    
             with st.expander("View Weather Verdict Guide"):
@@ -62,6 +56,7 @@ def run():
                 with coly:
                     st.image("images/compass.png",width=280)
                 st.caption("Ex- 350° means Wind is coming from 350° and going towards opposite to that.")
+                #WIND INPUTS
             wind_dir = st.slider("Wind Direction (°)", 0, 360, 90)
             wind_speed = st.slider(" Wind Speed (km/h)", 0, 20, 6)
 
@@ -85,22 +80,22 @@ def run():
         st.divider()
 
 
-# =========================
 # BASE (HARD CODED)
-# =========================
     base_input = {
         'temperature_2m': 25,
         'relative_humidity_2m': 65,
         'wind_speed_10m': 6,
         'precipitation': 1,
         'surface_pressure': 1000,
+        'wind_direction_10m': 90,
+        #DATE ARE NOT HARD CODED
         'month': month,
         'day': day,
-        'day_of_week': dow,
-        'wind_direction_10m': 90
+        'day_of_week': dow
+        
         }
 
-# BASE PREDICTION
+# BASE PREDICTION ON HARD CODED AND DATE VALUES
     base_pm25, base_pm10 = predict(base_input)
     colA,colB,colC,colD,colE =st.columns([3,1,1,1,3])
     with colB:
@@ -108,16 +103,13 @@ def run():
     with colD:
                         st.metric("Base PM10 (µg/m³)",round(base_pm10,2))
 
-    # =========================
-    # BASE PREDICTION
-    # =========================
-
+ #PARAMETER CHANGE   
     def modify_and_predict(key, new_value):
         modified = base_input.copy()
         modified[key] = new_value
         return predict(modified)
 
-
+#PARAMETER CHANGES ONE AT A TIME AND PREDICTS
     t25,t10 =modify_and_predict('temperature_2m', temp)
     h25,h10 =modify_and_predict('relative_humidity_2m', humidity)
     w25,w10=modify_and_predict('wind_speed_10m', wind_speed)
@@ -125,9 +117,8 @@ def run():
     pres25,pres10=modify_and_predict('surface_pressure', pressure,)
     wd25,wd10=modify_and_predict('wind_direction_10m', wind_dir)
 
-    # =========================
+    
     # FEATURES TO TEST
-    # =========================
     features = {
         "Temperature": (t25,t10),
         "Humidity": (h25,h10),
@@ -138,7 +129,7 @@ def run():
     }
 
     results = []
-
+#TO QUANTIFY THE IMPACT
     for name, (new_pm25,new_pm10) in features.items():
 
         delta25=new_pm25-base_pm25
@@ -155,12 +146,9 @@ def run():
 
     df = pd.DataFrame(results)
 
-    # =========================
-    # DISPLAY
-    # =========================
-    # =========================
-    # BAR CHART
-    # =========================
+
+    # 
+    # DATAFRAME AND BAR CHART DISPLAY
     colX,colY,colZ=st.columns([1,4,1])
 
     with colY:
