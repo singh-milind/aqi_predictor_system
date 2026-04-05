@@ -25,7 +25,7 @@ The main objectives of this project are:
 
 * Predict **PM2.5 concentration levels**
 * Predict **PM10 levels** using a **ratio-based model**
-* Estimate **AQI values** using **CPCB & WHO formulas**
+* Estimate **AQI values** using **CPCB formulas** and Comparison with **WHO Daily Safe Limits**
 * Classify air quality into categories such as:
 
   * Good
@@ -87,7 +87,7 @@ The model uses environmental and weather-based parameters such as:
 4. Feature engineering
 5. PM2.5 prediction using Random Forest
 6. PM10 estimation using ratio model
-7. AQI calculation using CPCB & WHO standards
+7. AQI calculation using CPCB standards
 8. Confidence interval generation
 9. Dashboard deployment in Streamlit
 10. Reporting dashboard in Power BI
