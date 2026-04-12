@@ -51,7 +51,7 @@ import modules.metrics as metrics
 colA, colB = st.columns([9, 1.3])
 
 with colA:
-    st.title("🌍 AQI Prediction System")
+    st.title("AQI Prediction System")
     st.caption("⚠️ Note: This system is specifically designed for Indian AQI patterns and conditions.")
 
 with colB:
