@@ -31,7 +31,7 @@ def run():
     with icenter:
 
         ileft,iright = st.columns([3,3])
-
+        #WEATHER HELP
         with ileft:    
             with st.expander("View Weather Verdict Guide"):
                 st.caption(" ")
