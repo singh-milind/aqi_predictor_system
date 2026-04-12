@@ -291,8 +291,6 @@ def run():
     "Lucknow": {"lat": 26.8467, "lon": 80.9462},
     "Dehradun": {"lat": 30.3165, "lon": 78.0322},
     "Kolkata": {"lat": 22.5726, "lon": 88.3639},
-
-    # NCR Cities
     "Delhi": {"lat": 28.6139, "lon": 77.2090},
     "Gurugram": {"lat": 28.4595, "lon": 77.0266},
     "Noida": {"lat": 28.5355, "lon": 77.3910},
