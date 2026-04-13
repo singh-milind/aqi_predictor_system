@@ -16,7 +16,7 @@ def load_all_resources():
             id=FILE_ID,
             output="models.zip",
             quiet=False,
-            fuzzy=True
+            #fuzzy=True
         )
 
         with zipfile.ZipFile("models.zip", "r") as zip_ref:
