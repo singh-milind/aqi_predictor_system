@@ -123,7 +123,7 @@ def run():
 
         # BASE CONDITIONS
         with ileft:
-            st.subheader("🟢 Current Conditions")
+            st.subheader("Current Conditions")
             st.caption("Select Base Parameters")
             st.divider()
             st.caption("Weather Parameters")
@@ -161,7 +161,7 @@ def run():
 
         # MODIFICATIONS
         with iright:
-            st.subheader("🔧 Modify Conditions")
+            st.subheader("Modify Conditions")
             st.caption("Select New Parameters")
             st.divider()
             st.caption("Weather Parameters")
@@ -239,7 +239,7 @@ def run():
 
             # OUTPUT
 
-            st.subheader("📊 Simulation Result")
+            st.subheader("Simulation Result")
             st.markdown("Note: AQI values are reported using CPCB standards.")
 
             c1, c2, c3 = st.columns([1,1,1])
