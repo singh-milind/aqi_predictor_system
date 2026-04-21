@@ -51,8 +51,8 @@ import modules.metrics as metrics
 colA, colB = st.columns([9, 1.3])
 
 with colA:
-    st.title("🌍 AQI Prediction System")
-    st.caption("⚠️ Note: This system is specifically designed for Indian AQI patterns and conditions.")
+    st.title("AQI Prediction System")
+    st.caption("Note: This system is specifically designed for Indian AQI patterns and conditions.")
 
 with colB:
     st.markdown("### 🔗 Connect")
@@ -79,19 +79,19 @@ if "page" not in st.session_state:
 col1, col2, col3, col4 = st.columns(4)
 
 with col1:
-    if st.button("🔮 Predictor", use_container_width=True):
+    if st.button("Predictor", use_container_width=True):
         st.session_state.page = "Predictor"
 
 with col2:
-    if st.button("⚙️ Simulator", use_container_width=True):
+    if st.button("Simulator", use_container_width=True):
         st.session_state.page = "Simulator"
 
 with col3:
-    if st.button("📊 Feature Importance", use_container_width=True):
+    if st.button("Feature Importance", use_container_width=True):
         st.session_state.page = "Feature"
 
 with col4:
-    if st.button("📈 Model Metrics", use_container_width=True):
+    if st.button("Model Metrics", use_container_width=True):
         st.session_state.page = "Metrics"
 
 st.divider()
