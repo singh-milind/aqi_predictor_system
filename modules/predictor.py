@@ -200,7 +200,7 @@ def run():
 
 
             # RESULTS
-            st.subheader("📊 Air Quality Prediction Summary")
+            st.subheader("Air Quality Prediction Summary")
 
             r1, r2 = st.columns(2)
 
