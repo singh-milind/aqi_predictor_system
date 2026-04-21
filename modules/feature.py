@@ -152,7 +152,7 @@ def run():
     colX,colY,colZ=st.columns([1,4,1])
 
     with colY:
-        st.subheader("📈 Impact (%)")
+        st.subheader("Impact (%)")
         st.dataframe(df)
         st.divider()
         st.line_chart(
