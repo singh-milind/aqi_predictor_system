@@ -15,10 +15,10 @@ def run():
     st.subheader("🔁 Model Workflow")
     st.markdown("Model Used : Random Forest Regressor")
     st.markdown("""
-1. 🌫️ **PM2.5 Model** predicts particulate concentration  
-2. 🔗 **Ratio Model** estimates PM10/PM2.5 relationship  
-3. 🌪️ **Final PM10 = PM2.5 × Ratio**  
-4. 📊 AQI calculated using CPCB & WHO formulas  
+1.  **PM2.5 Model** predicts particulate concentration  
+2.  **Ratio Model** estimates PM10/PM2.5 relationship  
+3.  **Final PM10 = PM2.5 × Ratio**  
+4.  AQI calculated using CPCB & WHO formulas  
 """)
     st.info(
     "⚠️ **Model Design Note:** PM2.5 and Ratio models are trained independently to avoid leakage. "
